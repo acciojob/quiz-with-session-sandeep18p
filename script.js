@@ -34,33 +34,25 @@ function renderQuestions() {
 
     questions.forEach((question, index) => {
         const questionElement = document.createElement("div");
-        const questionText = document.createTextNode(question.question);
-        questionElement.appendChild(questionText);
-
-        question.choices.forEach(choice => {
-            const choiceElement = document.createElement("input");
-            choiceElement.setAttribute("type", "radio");
-            choiceElement.setAttribute("name", `question-${index}`);
-            choiceElement.setAttribute("value", choice);
-
-            // Check if there's progress stored and if this choice matches the stored progress
-            if (progress[index] === choice) {
-                choiceElement.checked = true;
-            }
-
-            choiceElement.addEventListener("change", function(event) {
+        questionElement.innerHTML = `
+            <div>${question.question}</div>
+            ${question.choices.map(choice => `
+                <input type="radio" name="question-${index}" value="${choice}" ${progress[index] === choice ? 'checked' : ''}>
+                <label>${choice}</label>
+            `).join('')}
+        `;
+        
+        questionElement.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.addEventListener("change", function(event) {
                 progress[index] = event.target.value;
                 sessionStorage.setItem('progress', JSON.stringify(progress));
             });
-
-            const choiceText = document.createTextNode(choice);
-            questionElement.appendChild(choiceElement);
-            questionElement.appendChild(choiceText);
         });
 
         questionsElement.appendChild(questionElement);
     });
 }
+
 
 // Function to calculate the score
 function calculateScore() {
