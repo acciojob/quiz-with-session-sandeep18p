@@ -42,13 +42,15 @@ function renderQuestions() {
             choiceElement.setAttribute("type", "radio");
             choiceElement.setAttribute("name", `question-${index}`);
             choiceElement.setAttribute("value", choice);
+
+            // Check if there's progress stored and if this choice matches the stored progress
             if (progress[index] === choice) {
                 choiceElement.checked = true;
             }
+
             choiceElement.addEventListener("change", function(event) {
                 progress[index] = event.target.value;
                 sessionStorage.setItem('progress', JSON.stringify(progress));
-                
             });
 
             const choiceText = document.createTextNode(choice);
