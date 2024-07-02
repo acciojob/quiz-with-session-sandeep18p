@@ -45,7 +45,7 @@ function renderQuestions() {
 
             // Check if there's progress stored and if this choice matches the stored progress
             if (progress[index] === choice) {
-                choiceElement.checked = true;
+                choiceElement.setAttribute("checked", true);
             }
 
             choiceElement.addEventListener("change", function(event) {
